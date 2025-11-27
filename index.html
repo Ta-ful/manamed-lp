@@ -82,18 +82,12 @@
       letter-spacing: 0.05em;
     }
 
-    /* 円形のロゴマーク（グラデ＋光彩） */
-    .logo-mark {
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #e0f2fe 0, #7dd3fc 35%, #0ea5e9 60%, #0f172a 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      color: #0f172a;
-      box-shadow: 0 0 18px rgba(14, 165, 233, 0.45);
+    /* 画像ロゴのサイズ調整 */
+    .logo-img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      display: block;
     }
 
     /* ヘッダーのリンク配置とホバー色 */
@@ -709,7 +703,7 @@
     <header>
       <div class="nav-inner">
         <div class="logo">
-          <div class="logo-mark">CE</div>
+          <img class="logo-img" src="asset/logo-mark-manaMed.svg" alt="まなメド" />
           <span>まなメド</span>
         </div>
         <nav class="nav-links">
