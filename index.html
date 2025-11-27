@@ -77,15 +77,12 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
     }
 
-    /* 画像ロゴのサイズ調整 */
+    /* 画像ロゴのサイズ調整（ロゴマーク＋ロゴタイプ入り） */
     .logo-img {
-      width: 32px;
-      height: 32px;
+      width: 150px;
+      height: auto;
       object-fit: contain;
       display: block;
     }
@@ -703,8 +700,7 @@
     <header>
       <div class="nav-inner">
         <div class="logo">
-          <img class="logo-img" src="asset/logo-mark-manaMed.svg" alt="まなメド" />
-          <span>まなメド</span>
+          <img class="logo-img" src="asset/logo-manaMed.svg" alt="まなメド" />
         </div>
         <nav class="nav-links">
           <a href="#about">サービス概要</a>
