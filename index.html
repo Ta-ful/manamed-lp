@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>まなメド｜臨床工学技士のための学びプラットフォーム</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="忙しい臨床工学技士のための、セミナー探しと資格管理がこれ1つに。全国のCE向けセミナー情報を一元管理できるWebサービス「まなメド」。"
+  />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #020617;
+      --card: #0b1120;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2937;
+      --danger: #f97373;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%, #000 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      backdrop-filter: blur(16px);
+      background: linear-gradient(
+        to bottom,
+        rgba(15, 23, 42, 0.95),
+        rgba(15, 23, 42, 0.9),
+        transparent
+      );
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.6rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .logo-mark {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #e0f2fe 0, #38bdf8 35%, #0ea5e9 60%, #0f172a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #0f172a;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.7);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.8rem;
+    }
+
+    .nav-cta:hover {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e5f4ff;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3.5rem 1.2rem;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+      gap: 2.5rem;
+      padding-top: 4rem;
+      padding-bottom: 3.5rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.15rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--accent);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .hero-title {
+      margin-top: 1.2rem;
+      font-size: clamp(1.9rem, 2.7vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .hero-title span.highlight {
+      color: #e0f2fe;
+    }
+
+    .hero-body {
+      margin-top: 1rem;
+      color: var(--text-muted);
+      font-size: 0.96rem;
+    }
+
+    .hero-badges {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .hero-badge {
+      padding: 0.28rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.8rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #0f172a;
+      font-weight: 600;
+      font-size: 0.96rem;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8), 0 0 22px rgba(56, 189, 248, 0.6);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-note strong {
+      color: #e5f4ff;
+    }
+
+    .hero-card {
+      border-radius: 1.4rem;
+      padding: 1.6rem;
+      background: radial-gradient(circle at top left, #1e293b 0, #020617 45%, #000 100%);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at top, rgba(56, 189, 248, 0.22) 0, transparent 55%),
+        radial-gradient(circle at bottom right, rgba(94, 234, 212, 0.18) 0, transparent 60%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .hero-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card-title {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-kpi-row {
+      display: flex;
+      gap: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-kpi {
+      flex: 1;
+      padding: 0.7rem 0.8rem;
+      border-radius: 0.9rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      font-size: 0.78rem;
+    }
+
+    .hero-kpi-label {
+      color: var(--text-muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .hero-kpi-value {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #e0f2fe;
+    }
+
+    .hero-list {
+      list-style: none;
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .hero-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+      margin-top: 0.35rem;
+    }
+
+    .hero-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      margin-top: 0.3rem;
+    }
+
+    .hero-status {
+      margin-top: 0.9rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 0.8rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .hero-status span {
+      color: #e5f4ff;
+    }
+
+    /* Sections */
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-lead {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      max-width: 620px;
+      margin-bottom: 1.6rem;
+    }
+
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .problem-card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 1rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .problem-card-badge {
+      font-size: 0.7rem;
+      color: var(--danger);
+      margin-bottom: 0.2rem;
+    }
+
+    .section-quote {
+      margin-top: 1.6rem;
+      padding: 0.9rem 1.1rem;
+      border-left: 3px solid var(--accent);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      border-radius: 0.8rem;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.1fr);
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .card {
+      border-radius: 1.2rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 1.4rem 1.3rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      color: #e5e7eb;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.7rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .benefit-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.1rem;
+      margin-top: 1.4rem;
+      font-size: 0.84rem;
+    }
+
+    .benefit-card {
+      border-radius: 1rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 1rem 0.95rem;
+    }
+
+    .benefit-label {
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .benefit-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #e5e7eb;
+    }
+
+    .benefit-body {
+      color: var(--text-muted);
+    }
+
+    .stacked {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.1fr);
+      gap: 1.8rem;
+      align-items: flex-start;
+      margin-top: 1.4rem;
+    }
+
+    .list {
+      list-style: none;
+      margin-top: 0.4rem;
+    }
+
+    .list li {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.3rem;
+      font-size: 0.84rem;
+    }
+
+    .list-icon {
+      margin-top: 0.3rem;
+      font-size: 0.85rem;
+      color: var(--accent);
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .pill {
+      font-size: 0.72rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: var(--text-muted);
+    }
+
+    .subtitle {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.1rem;
+      margin-top: 1.2rem;
+      font-size: 0.84rem;
+    }
+
+    .feature-item {
+      padding: 0.8rem 0.9rem;
+      border-radius: 0.9rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .feature-item h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: #e5e7eb;
+    }
+
+    .feature-item p {
+      color: var(--text-muted);
+    }
+
+    .tagline {
+      margin-top: 1rem;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.2rem;
+      font-size: 0.84rem;
+    }
+
+    .step {
+      border-radius: 0.9rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 0.9rem 0.8rem;
+    }
+
+    .step-index {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .step-title {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      margin-bottom: 0.2rem;
+    }
+
+    .step-body {
+      color: var(--text-muted);
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.2rem;
+      font-size: 0.86rem;
+    }
+
+    .faq-item {
+      border-radius: 0.9rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 0.9rem 0.95rem;
+    }
+
+    .faq-q {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #e5e7eb;
+    }
+
+    .faq-a {
+      color: var(--text-muted);
+    }
+
+    .cta-final {
+      text-align: center;
+      padding-bottom: 4rem;
+    }
+
+    .cta-final p {
+      margin-top: 0.4rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .cta-final strong {
+      color: #e5f4ff;
+    }
+
+    footer {
+      border-top: 1px solid rgba(148, 163, 184, 0.3);
+      padding: 1.4rem 1.2rem 1.8rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: radial-gradient(circle at top, #020617 0, #020617 60%, #000 100%);
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-card {
+        order: -1;
+      }
+
+      .benefit-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .split,
+      .stacked {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .faq-grid,
+      .problems-grid,
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section {
+        padding: 2.6rem 1rem;
+      }
+
+      .hero {
+        padding-top: 3rem;
+      }
+
+      .benefit-list {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .steps {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="nav-inner">
+        <div class="logo">
+          <div class="logo-mark">CE</div>
+          <span>まなメド</span>
+        </div>
+        <nav class="nav-links">
+          <a href="#about">サービス概要</a>
+          <a href="#benefits">特徴</a>
+          <a href="#features">機能一覧</a>
+          <a href="#flow">使い方</a>
+          <a href="#faq">FAQ</a>
+          <a href="#cta" class="nav-cta">まずは登録</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="section hero" id="top">
+        <div>
+          <div class="eyebrow">臨床工学技士専用・学びのインフラ</div>
+          <h1 class="hero-title">
+            忙しい臨床工学技士のための、<br />
+            <span class="highlight">セミナー探しと資格管理がこれ1つに。</span>
+          </h1>
+          <p class="hero-body">
+            全国のCE向けセミナー情報を一元管理。<br />
+            認定資格の更新も、日々の学びも、バラバラな情報に振り回されずに進められます。
+          </p>
+          <div class="hero-badges">
+            <span class="hero-badge">セミナー情報・資格管理・資料検索を一元化</span>
+            <span class="hero-badge">CE向けに特化した学びプラットフォーム</span>
+          </div>
+          <div class="hero-cta-row" id="cta">
+            <button class="btn-primary">
+              まなメドにまずは登録
+              <span>→</span>
+            </button>
+            <p class="hero-note">
+              <strong>1分で完了</strong>・PC/スマホから利用できます
+            </p>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-hidden="true">
+          <div class="hero-card-inner">
+            <div class="hero-card-title">あなたの学びのダッシュボード（イメージ）</div>
+            <div class="hero-kpi-row">
+              <div class="hero-kpi">
+                <div class="hero-kpi-label">今月の受講予定</div>
+                <div class="hero-kpi-value">3件</div>
+              </div>
+              <div class="hero-kpi">
+                <div class="hero-kpi-label">資格更新まで</div>
+                <div class="hero-kpi-value">残り 8 ヶ月</div>
+              </div>
+            </div>
+            <ul class="hero-list">
+              <li>
+                <div class="hero-dot"></div>
+                <span>更新に必要なポイント：<strong>あと 6pt</strong>（おすすめセミナーを表示）</span>
+              </li>
+              <li>
+                <div class="hero-dot"></div>
+                <span>興味分野：透析 / 集中治療 / デバイス安全管理</span>
+              </li>
+              <li>
+                <div class="hero-dot"></div>
+                <span>レベル：<strong>Lv.7</strong>（学会参加・セミナー受講で経験値アップ）</span>
+              </li>
+            </ul>
+            <div class="hero-status">
+              更新期限・ポイント・受講歴・バッジをまとめて可視化。<br />
+              <span>「次に何を受ければいいか」が一目でわかる状態</span>を目指しています。
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- Problems -->
+      <section class="section" id="problems">
+        <div class="section-kicker">こんなことで困っていませんか？</div>
+        <h2 class="section-title">学びたいのに、情報がバラバラでしんどい。</h2>
+        <p class="section-lead">
+          「セミナーに行きたい」「資格をちゃんと維持したい」――その気持ちはあるのに、情報が分散しているせいで、むしろ疲れてしまう。そんなCEの日常を、まなメドは変えたいと考えています。
+        </p>
+        <div class="problems-grid">
+          <div class="problem-card">
+            <div class="problem-card-badge">#セミナー探し地獄</div>
+            SNS・メール・学会サイトを行ったり来たりして、<br />
+            「セミナー情報を探すだけで疲れてしまう」。
+          </div>
+          <div class="problem-card">
+            <div class="problem-card-badge">#資格更新の不安</div>
+            認定資格の更新期限や必要ポイントを、<br />
+            そのたびにググって確認していて不安が消えない。
+          </div>
+          <div class="problem-card">
+            <div class="problem-card-badge">#地域格差</div>
+            地方勤務で参加できるセミナーが限られ、<br />
+            「自分だけ取り残されている気がする」。
+          </div>
+          <div class="problem-card">
+            <div class="problem-card-badge">#予定忘れ</div>
+            興味があって申し込んだセミナーを、<br />
+            気づいたら日程を忘れていた…という経験が何度もある。
+          </div>
+        </div>
+        <div class="section-quote">
+          「学びたい気持ち」はあるのに、情報がバラバラで、時間も気力も削られていく。<br />
+          そんな状況を変えるために生まれたのが、CE専用の学びプラットフォーム「まなメド」です。
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="section" id="about">
+        <div class="split">
+          <div>
+            <div class="section-kicker">What is まなメド？</div>
+            <h2 class="section-title">臨床工学技士の学びを、一か所にまとめる。</h2>
+            <p class="section-lead">
+              まなメドは、臨床工学技士のための「セミナー情報・資格管理・学びの記録」を一元管理できるWebサービスです。<br />
+              どこで何を調べればいいのか悩む時間を減らし、「学びたいこと」に集中できる環境をつくります。
+            </p>
+            <ul class="list">
+              <li>
+                <span class="list-icon">✔</span>
+                <span>全国のCE向けセミナー情報を一覧・検索できる</span>
+              </li>
+              <li>
+                <span class="list-icon">✔</span>
+                <span>認定資格の更新期限・必要ポイント・取得状況をまとめて可視化</span>
+              </li>
+              <li>
+                <span class="list-icon">✔</span>
+                <span>興味分野や資格に合わせたセミナーをレコメンド</span>
+              </li>
+              <li>
+                <span class="list-icon">✔</span>
+                <span>受講歴・資格・バッジがたまっていく「学びのポートフォリオ」</span>
+              </li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="badge">for CE</div>
+            <h3>「学びのインフラ」としてのまなメド</h3>
+            <p>
+              個人の努力に依存した学び方から、<br />
+              仕組みとしてサポートされる学び方へ。
+            </p>
+            <ul class="list">
+              <li>
+                <span class="list-icon">▶</span>
+                <span>セミナー探し・資格管理・資料検索をまとめて一つの画面で。</span>
+              </li>
+              <li>
+                <span class="list-icon">▶</span>
+                <span>自分の「今」と「これから必要な学び」がつながる体験を目指しています。</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Benefits -->
+      <section class="section" id="benefits">
+        <div class="section-kicker">Three Benefits</div>
+        <h2 class="section-title">まなメドで得られる、3つの大きなメリット。</h2>
+        <p class="section-lead">
+          忙しいCEの日常を前提に、「何がどれだけラクになるのか」を徹底的に考えました。
+        </p>
+
+        <div class="benefit-list">
+          <div class="benefit-card">
+            <div class="benefit-label">Benefit 01</div>
+            <div class="benefit-title">セミナー探しの時短</div>
+            <p class="benefit-body">
+              分野（透析、循環器、集中治療など）、開催形式（オンライン／現地／ハイブリッド）、日程・地域から、全国のCE向けセミナーを一発検索。<br />
+              夜勤前の5分でも、「今月どのセミナーを受けるか」をすぐに決められます。
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-label">Benefit 02</div>
+            <div class="benefit-title">資格更新の不安解消</div>
+            <p class="benefit-body">
+              保有資格ごとに「更新期限・必要ポイント・取得済みポイント」を一覧表示。<br />
+              期限が近づいてきたら、必要ポイントが取れるセミナーをレコメンド。<br />
+              「気づいたら期限が迫っていて焦る」状態から解放されます。
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-label">Benefit 03</div>
+            <div class="benefit-title">地域を越えた学びの機会</div>
+            <p class="benefit-body">
+              オンライン・ハイブリッドのセミナーも含めて、地域に関係なく参加できる学びの機会を一覧で把握。<br />
+              地方勤務でも、都市部と同じレベルのセミナー情報にアクセスできます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gamification -->
+      <section class="section" id="gamification">
+        <div class="section-kicker">Keep Learning</div>
+        <h2 class="section-title">学びが“経験値”になる、レベル＆デジタルバッジ。</h2>
+        <p class="section-lead">
+          ただ受けて終わりではなく、「続けたくなる」仕掛けを用意しました。
+        </p>
+        <div class="stacked">
+          <div class="card">
+            <div class="badge">Level System</div>
+            <h3>レベルシステム</h3>
+            <p class="subtitle">
+              セミナー受講・登壇・資格取得などのアクションに応じて経験値がたまり、アカウントレベルが上がっていきます。
+            </p>
+            <ul class="list">
+              <li>
+                <span class="list-icon">◎</span>
+                <span>「どれだけ学んできたか」が一目でわかる</span>
+              </li>
+              <li>
+                <span class="list-icon">◎</span>
+                <span>得意分野や学びの傾向が見えてくる</span>
+              </li>
+              <li>
+                <span class="list-icon">◎</span>
+                <span>自分の成長を“数値”と“レベル”で実感できる</span>
+              </li>
+            </ul>
+            <p class="tagline">
+              受けっぱなしのセミナーを、「キャリアの経験値」に変えていくイメージです。
+            </p>
+          </div>
+          <div class="card">
+            <div class="badge">Digital Badges</div>
+            <h3>デジタルバッジシステム</h3>
+            <p class="subtitle">
+              学会参加や特定テーマの受講、資格ごとにオリジナルバッジを付与し、コレクションしていけます。
+            </p>
+            <ul class="list">
+              <li>
+                <span class="list-icon">◎</span>
+                <span>学会参加や資格取得が“目に見える実績”として残る</span>
+              </li>
+              <li>
+                <span class="list-icon">◎</span>
+                <span>「この分野をここまでやっている人」だと周囲に伝わりやすい</span>
+              </li>
+              <li>
+                <span class="list-icon">◎</span>
+                <span>自己満で終わらない、“見せられるポートフォリオ”になる</span>
+              </li>
+            </ul>
+            <p class="tagline">
+              ※一部では、ご当地キャラクターなどとのコラボバッジ企画も検討しています。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section class="section" id="features">
+        <div class="section-kicker">Features</div>
+        <h2 class="section-title">具体的にできること。</h2>
+        <p class="section-lead">
+          セミナー探し・資格管理・資料検索まで、CEの日常業務と両立しやすい形にこだわりました。
+        </p>
+
+        <div class="grid-2">
+          <div class="feature-item">
+            <h3>セミナー検索・一覧表示</h3>
+            <p>
+              分野／開催形式／日程／オンライン・現地などで絞り込み。<br />
+              今の自分に合うセミナーを、迷わず探せます。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>資格管理ダッシュボード</h3>
+            <p>
+              保有資格・登録日・更新期限・必要ポイント・取得状況を一元管理。<br />
+              「もうすぐ更新の資格」がひと目でわかります。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>レコメンド機能</h3>
+            <p>
+              資格や興味分野、受講履歴から、おすすめのセミナーを提案。<br />
+              「何を受ければいいかわからない」を減らします。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>リマインド通知</h3>
+            <p>
+              申し込んだセミナーの開催前に通知。<br />
+              参加忘れを防ぎ、学びの機会を無駄にしません。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>資料検索・ダウンロード</h3>
+            <p>
+              過去のセミナー資料や勉強会スライドをキーワードやカテゴリで検索。<br />
+              「あの時のスライド」をいつでも見返せます。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>学びの記録・レベル＆バッジ</h3>
+            <p>
+              受講歴・資格・バッジが蓄積され、あなたの学びの軌跡が一望できます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- For organizers (abstract) -->
+      <section class="section" id="organizers">
+        <div class="section-kicker">For Organizers</div>
+        <h2 class="section-title">学会・研究会・企業でも、導入が広がりつつあります。</h2>
+        <p class="section-lead">
+          まなメドは、個人のCEだけでなく、セミナーを主催する側（学会・研究会・団体・企業など）にも、広報・運営のインフラとして活用され始めています。
+        </p>
+        <div class="grid-2">
+          <div class="feature-item">
+            <h3>CEに特化した集客チャネル</h3>
+            <p>
+              臨床工学技士にフォーカスしたプラットフォームとして、必要な人に情報が届きやすい導線を提供します。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>受付・決済・受講管理の効率化</h3>
+            <p>
+              申し込み〜決済〜受講管理までを一元化し、事務作業の負担を軽減します。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>受講証明書・メール送付の負担軽減</h3>
+            <p>
+              受講証明書の発行や個別メール送付にかかる手間を削減し、運営側の時間を確保します。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>参加者データを活かした企画改善</h3>
+            <p>
+              分野や職場などの属性情報をもとに、「どのテーマがどの層に刺さっているか」を把握しやすくなります。
+            </p>
+          </div>
+        </div>
+        <p class="tagline">
+          主催側の導入が進むことで、CE側に届くセミナー情報も、どんどん充実していきます。
+        </p>
+      </section>
+
+      <!-- Roadmap -->
+      <section class="section" id="roadmap">
+        <div class="section-kicker">Roadmap</div>
+        <h2 class="section-title">今後のアップデートについて。</h2>
+        <p class="section-lead">
+          まなメドは、CEの学び方・キャリアの築き方をもっと楽しく、もっと報われるものにするために、今後も機能の追加・改善を続けていきます。
+        </p>
+        <div class="grid-2">
+          <div class="feature-item">
+            <h3>アプリ内通貨（コイン）機能（開発中）</h3>
+            <p>
+              資料の投稿や、個人でのセミナー開催などの活動によってコインを獲得し、それをポイントや金銭相当の価値に変えられる仕組みを検討しています。<br />
+              自分の知識や経験を学び合いの場に還元しながら、きちんと評価・還元される状態を目指します。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>他職種への展開</h3>
+            <p>
+              将来的には、看護師・放射線技師・臨床検査技師など、他のコメディカル職種にも対象を広げていく予定です。<br />
+              チーム医療全体の学びインフラを目指して開発を進めていきます。
+            </p>
+          </div>
+        </div>
+        <p class="tagline">
+          ※内容や時期は、開発状況に応じて変更となる可能性があります。
+        </p>
+      </section>
+
+      <!-- Flow -->
+      <section class="section" id="flow">
+        <div class="section-kicker">How to Start</div>
+        <h2 class="section-title">利用の流れ。</h2>
+        <p class="section-lead">
+          1分あれば、今日から「学びの見える化」を始められます。
+        </p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-index">STEP 1</div>
+            <div class="step-title">まずは登録</div>
+            <div class="step-body">
+              メールアドレスなどの基本情報を登録して、マイページを作成します。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">STEP 2</div>
+            <div class="step-title">資格・興味分野を登録</div>
+            <div class="step-body">
+              保有資格や関心のある分野を選択すると、あなたに合ったセミナーが表示されやすくなります。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">STEP 3</div>
+            <div class="step-title">セミナーを探す・申し込む</div>
+            <div class="step-body">
+              条件検索やレコメンドから、気になるセミナーを選んで受講します。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">STEP 4</div>
+            <div class="step-title">学び・資格の状況を確認</div>
+            <div class="step-body">
+              ダッシュボードで、更新期限・ポイント・受講歴・レベル・バッジをいつでも確認できます。
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section" id="faq">
+        <div class="section-kicker">FAQ</div>
+        <h2 class="section-title">よくある質問。</h2>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <div class="faq-q">Q. 利用に特別な条件はありますか？</div>
+            <div class="faq-a">
+              主に臨床工学技士向けのサービスとして設計していますが、関連職種の方も、内容に問題なければご利用いただけます。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Q. スマホからでも使えますか？</div>
+            <div class="faq-a">
+              はい、スマートフォンからの利用を想定して設計しています。通勤時間や休憩中など、すきま時間でもセミナー探しや資料閲覧が可能です。
+            </div>
+          </div>
+          <div classfaq-item>
+            <div class="faq-q">Q. セミナーの主催側としても利用できますか？</div>
+            <div class="faq-a">
+              はい、学会・研究会・企業など、主催者としてのご利用も可能です。主催者向けの詳細については、別途ご案内いたします。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Q. 将来的に対象はCE以外にも広がりますか？</div>
+            <div class="faq-a">
+              今は臨床工学技士に特化して開発していますが、将来的には他のコメディカル職種への展開も検討しています。
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final CTA -->
+      <section class="section cta-final">
+        <h2 class="section-title">情報に振り回される日々から、抜け出しませんか？</h2>
+        <p>
+          セミナー探しの時短、資格更新の不安解消、地域を越えた学びの機会。<br />
+          そして、レベルとバッジで可視化されるあなたのキャリア。
+        </p>
+        <p>
+          そのスタートラインに立つのは、<strong>1分の「登録」だけ</strong>です。
+        </p>
+        <div style="margin-top: 1.6rem;">
+          <button class="btn-primary">まなメドにまずは登録</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>© 2025 まなメド</span>
+        <span>※ 本ページはβ版サービスの紹介用LPです。</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
