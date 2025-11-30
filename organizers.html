@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>まなメド｜学会・団体さま向けセミナー運営プラットフォーム</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="臨床工学技士向けセミナーの集客・決済・受講管理をまとめてラクにする、学会・研究会・団体さま向けプラットフォーム「まなメド」。"
+  />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #020617;
+      --card: #0b1120;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2937;
+      --danger: #f97373;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%, #000 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      backdrop-filter: blur(16px);
+      background: linear-gradient(
+        to bottom,
+        rgba(15, 23, 42, 0.95),
+        rgba(15, 23, 42, 0.9),
+        transparent
+      );
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.6rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .logo-mark {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #e0f2fe 0, #38bdf8 35%, #0ea5e9 60%, #0f172a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #0f172a;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.7);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.8rem;
+    }
+
+    .nav-cta:hover {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e5f4ff;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3.5rem 1.2rem;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+      gap: 2.5rem;
+      padding-top: 4rem;
+      padding-bottom: 3.5rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.15rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--accent);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .hero-title {
+      margin-top: 1.2rem;
+      font-size: clamp(1.9rem, 2.7vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .hero-title span.highlight {
+      color: #e0f2fe;
+    }
+
+    .hero-body {
+      margin-top: 1rem;
+      color: var(--text-muted);
+      font-size: 0.96rem;
+    }
+
+    .hero-badges {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .hero-badge {
+      padding: 0.28rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.8rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #0f172a;
+      font-weight: 600;
+      font-size: 0.96rem;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8), 0 0 22px rgba(56, 189, 248, 0.6);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      font-size: 0.85rem;
+      color: var(--accent);
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-note strong {
+      color: #e5f4ff;
+    }
+
+    .hero-card {
+      border-radius: 1.4rem;
+      padding: 1.6rem;
+      background: radial-gradient(circle at top left, #1e293b 0, #020617 45%, #000 100%);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at top, rgba(56, 189, 248, 0.22) 0, transparent 55%),
+        radial-gradient(circle at bottom right, rgba(94, 234, 212, 0.18) 0, transparent 60%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .hero-card-inner {
+      position: relative;
+      z-index: 1;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .hero-card-title {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-kpi-row {
+      display: flex;
+      gap: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-kpi {
+      flex: 1;
+      padding: 0.7rem 0.8rem;
+      border-radius: 0.9rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      font-size: 0.78rem;
+    }
+
+    .hero-kpi-label {
+      color: var(--text-muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .hero-kpi-value {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #e0f2fe;
+    }
+
+    .hero-list {
+      list-style: none;
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .hero-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+      margin-top: 0.35rem;
+    }
+
+    .hero-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      margin-top: 0.3rem;
+    }
+
+    .hero-status {
+      margin-top: 0.9rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 0.8rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Sections */
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-lead {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      max-width: 620px;
+      margin-bottom: 1.6rem;
+    }
+
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .problem-card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 1rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .problem-card-badge {
+      font-size: 0.7rem;
+      color: var(--danger);
+      margin-bottom: 0.2rem;
+    }
+
+    .section-quote {
+      margin-top: 1.6rem;
+      padding: 0.9rem 1.1rem;
+      border-left: 3px solid var(--accent);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      border-radius: 0.8rem;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .card {
+      border-radius: 1.2rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 1.4rem 1.3rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      color: #e5e7eb;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.7rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .benefit-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.1rem;
+      margin-top: 1.4rem;
+      font-size: 0.84rem;
+    }
+
+    .benefit-card {
+      border-radius: 1rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 1rem 0.95rem;
+    }
+
+    .benefit-label {
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .benefit-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #e5e7eb;
+    }
+
+    .benefit-body {
+      color: var(--text-muted);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.1rem;
+      margin-top: 1.2rem;
+      font-size: 0.84rem;
+    }
+
+    .feature-item {
+      padding: 0.8rem 0.9rem;
+      border-radius: 0.9rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .feature-item h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: #e5e7eb;
+    }
+
+    .feature-item p {
+      color: var(--text-muted);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.2rem;
+      font-size: 0.84rem;
+    }
+
+    .step {
+      border-radius: 0.9rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 0.9rem 0.8rem;
+    }
+
+    .step-index {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .step-title {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      margin-bottom: 0.2rem;
+    }
+
+    .step-body {
+      color: var(--text-muted);
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.2rem;
+      font-size: 0.86rem;
+    }
+
+    .faq-item {
+      border-radius: 0.9rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 0.9rem 0.95rem;
+    }
+
+    .faq-q {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #e5e7eb;
+    }
+
+    .faq-a {
+      color: var(--text-muted);
+    }
+
+    .cta-final {
+      text-align: center;
+      padding-bottom: 4rem;
+    }
+
+    .cta-final p {
+      margin-top: 0.4rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .cta-final strong {
+      color: #e5f4ff;
+    }
+
+    footer {
+      border-top: 1px solid rgba(148, 163, 184, 0.3);
+      padding: 1.4rem 1.2rem 1.8rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: radial-gradient(circle at top, #020617 0, #020617 60%, #000 100%);
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-card {
+        order: -1;
+      }
+
+      .benefit-list,
+      .grid-2,
+      .faq-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .split {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .steps {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section {
+        padding: 2.6rem 1rem;
+      }
+
+      .hero {
+        padding-top: 3rem;
+      }
+
+      .benefit-list {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="nav-inner">
+        <div class="logo">
+          <div class="logo-mark">CE</div>
+          <span>まなメド</span>
+        </div>
+        <nav class="nav-links">
+          <a href="#about">サービス概要</a>
+          <a href="#merits">導入メリット</a>
+          <a href="#features">主催者向け機能</a>
+          <a href="#flow">導入の流れ</a>
+          <a href="#faq">FAQ</a>
+          <a href="#cta" class="nav-cta">お問い合わせ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="section hero" id="top">
+        <div>
+          <div class="eyebrow">学会・研究会・団体さま向け</div>
+          <h1 class="hero-title">
+            臨床工学技士向けセミナーの<br />
+            <span class="highlight">集客・運営を、まとめてラクに。</span>
+          </h1>
+          <p class="hero-body">
+            「まなメド」は、臨床工学技士（CE）に特化した<br />
+            セミナー集客・決済・受講管理のプラットフォームです。<br />
+            会員への案内・受付・証明書発行などの事務作業を減らしつつ、<br />
+            必要なCEにきちんと情報が届く仕組みを提供します。
+          </p>
+          <div class="hero-badges">
+            <span class="hero-badge">CEに特化したセミナーインフラ</span>
+            <span class="hero-badge">集客・決済・受講管理を一元化</span>
+          </div>
+          <div class="hero-cta-row" id="cta">
+            <a
+              class="btn-primary"
+              href="https://example.com/contact"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              オンライン説明を問い合わせる
+            </a>
+            <p class="hero-note">
+              <strong>15〜30分のオンラインミーティング</strong>で、<br />
+              御団体の状況に合わせてご説明いたします。
+            </p>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-hidden="true">
+          <div class="hero-card-inner">
+            <div class="hero-card-title">まなメド導入イメージ</div>
+            <div class="hero-kpi-row">
+              <div class="hero-kpi">
+                <div class="hero-kpi-label">案内チャネル</div>
+                <div class="hero-kpi-value">メール＋まなメドに一本化</div>
+              </div>
+              <div class="hero-kpi">
+                <div class="hero-kpi-label">事務作業時間</div>
+                <div class="hero-kpi-value">▲30〜50％想定</div>
+              </div>
+            </div>
+            <ul class="hero-list">
+              <li>
+                <div class="hero-dot"></div>
+                <span>申し込み・決済・受講管理を1つの画面で確認</span>
+              </li>
+              <li>
+                <div class="hero-dot"></div>
+                <span>受講証明書の発行・送付の負担を軽減</span>
+              </li>
+              <li>
+                <div class="hero-dot"></div>
+                <span>分野・資格と紐づけて参加者傾向を把握</span>
+              </li>
+            </ul>
+            <div class="hero-status">
+              「毎回エクセルとメールでなんとか回している」状態から、<br />
+              <span>“仕組みとして回る”セミナー運営</span>へ移行していくことを目指しています。
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- Problems -->
+      <section class="section" id="problems">
+        <div class="section-kicker">Problem</div>
+        <h2 class="section-title">CE向けセミナー運営、こんなお悩みはありませんか？</h2>
+        <p class="section-lead">
+          学会・研究会・団体のご担当者さまから、臨床工学技士向けセミナー・勉強会について、共通したお悩みをお聞きします。
+        </p>
+        <div class="problems-grid">
+          <div class="problem-card">
+            <div class="problem-card-badge">#案内がバラバラ</div>
+            会員への案内がメール・PDF・院内掲示・SNSなどに分散し、<br />
+            本当に届いているのか不安。
+          </div>
+          <div class="problem-card">
+            <div class="problem-card-badge">#事務作業の負担</div>
+            申し込みフォームの作成、入金確認、領収書・受講証明書の発行など、<br />
+            担当者の手作業が多い。
+          </div>
+          <div class="problem-card">
+            <div class="problem-card-badge">#参加者の見えにくさ</div>
+            どの分野のCEが、どのテーマに関心を持っているのか、<br />
+            感覚でしか把握できない。
+          </div>
+          <div class="problem-card">
+            <div class="problem-card-badge">#汎用サービスへのモヤモヤ</div>
+            Peatixなどを使ってはいるものの、<br />
+            手数料や「CE以外も混在している場」に違和感がある。
+          </div>
+        </div>
+        <div class="section-quote">
+          まなメドは、こうした課題を<br />
+          <strong>「臨床工学技士に特化したセミナーインフラ」</strong>としてまとめて解決することを目指しています。
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="section" id="about">
+        <div class="split">
+          <div>
+            <div class="section-kicker">What is まなメド？</div>
+            <h2 class="section-title">CE向けセミナーの“学びのインフラ”へ。</h2>
+            <p class="section-lead">
+              まなメドは、臨床工学技士向けのセミナー情報・資格管理・学びの記録を一元管理するプラットフォームです。<br />
+              主催側にとっては「運営の負担を減らしつつ、必要なCEに届ける仕組み」を、参加するCEにとっては「探しやすく、参加しやすい学びの環境」を提供します。
+            </p>
+            <ul style="list-style:none; margin-top:0.4rem; font-size:0.86rem; color:var(--text-muted);">
+              <li>・セミナー掲載・告知（CE向け一覧・検索画面に表示）</li>
+              <li>・申し込み・決済・参加管理の一元化</li>
+              <li>・受講証明書の発行補助</li>
+              <li>・参加者属性データの把握・活用</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="badge">For Organizers</div>
+            <h3>主催者さまにとっての価値</h3>
+            <p>
+              「セミナーを開きたいが、事務負担や集客に悩んでいる」という団体さまに対して、<br />
+              CEに特化した集客導線と、運営の省力化を同時に提供します。
+            </p>
+            <ul style="list-style:none; margin-top:0.5rem; font-size:0.84rem;">
+              <li>・既存のメール・案内と組み合わせて段階的に導入可能</li>
+              <li>・一部セミナーのみ試験利用してから本格導入もOK</li>
+              <li>・運営フローに合わせた使い方をご提案</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Merits -->
+      <section class="section" id="merits">
+        <div class="section-kicker">Benefits</div>
+        <h2 class="section-title">まなメド導入で得られる3つのメリット。</h2>
+        <p class="section-lead">
+          まなメドは「手数料＆広報コスト」「集客」「事務作業」の3つの観点から、CE向けセミナー運営をサポートします。
+        </p>
+
+        <div class="benefit-list">
+          <div class="benefit-card">
+            <div class="benefit-label">Merit 01</div>
+            <div class="benefit-title">手数料＆広報コストの削減</div>
+            <p class="benefit-body">
+              CEに特化したプラットフォームのため、「本当に参加してほしい層」に絞って情報を届けやすい構造です。<br />
+              汎用サービス利用時の“もったいなさ”を減らしつつ、御団体の状況に合わせた料金設計が可能です。
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-label">Merit 02</div>
+            <div class="benefit-title">全国のCEへの集客導線</div>
+            <p class="benefit-body">
+              まなメド側で、個人のCEユーザー向けにセミナー検索・レコメンド機能を提供。<br />
+              分野・資格・興味に応じてセミナーが表示されるため、院内・地域内に限らない集客が期待できます。
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-label">Merit 03</div>
+            <div class="benefit-title">事務作業の効率化</div>
+            <p class="benefit-body">
+              申し込み・決済・受講証明書発行などの情報を一元管理し、担当者の手作業を減らします。<br />
+              「毎回エクセルとメールでなんとか回している」状態から、仕組みとして回る運営へ。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section class="section" id="features">
+        <div class="section-kicker">Features</div>
+        <h2 class="section-title">主催者さま向けの主な機能。</h2>
+        <p class="section-lead">
+          学会・研究会・団体・企業の教育担当の方が、日常業務と両立しやすいように設計しています。
+        </p>
+
+        <div class="grid-2">
+          <div class="feature-item">
+            <h3>セミナー掲載・告知機能</h3>
+            <p>
+              タイトル・分野・対象・開催形式（オンライン／現地／ハイブリッド）・日程・会場・参加費などを登録し、CE向け一覧・検索画面に表示します。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>申し込み・決済・参加管理</h3>
+            <p>
+              申し込みフォーム〜決済〜参加者リストを一元管理。オンライン開催との相性も良く、「申し込みはオンライン、視聴は配信」という形式にも対応可能です。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>受講証明書の発行補助</h3>
+            <p>
+              受講者リストから受講証明書の発行・通知をサポート。個別メール送付や手作業での証明書作成の負担を軽減します。
+            </p>
+          </div>
+          <div class="feature-item">
+            <h3>参加者属性データの把握</h3>
+            <p>
+              分野・資格・所属種別などの属性情報と紐づけて、「どのセミナーに、どの層が参加しているか」を把握。次回以降のテーマ設定や難易度調整に活かせます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Flow -->
+      <section class="section" id="flow">
+        <div class="section-kicker">Flow</div>
+        <h2 class="section-title">導入の流れ。</h2>
+        <p class="section-lead">
+          まずは小さく試験的に導入し、御団体の運営フローに合う形を一緒に探っていきます。
+        </p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-index">STEP 1</div>
+            <div class="step-title">オンラインでのヒアリング・ご説明</div>
+            <div class="step-body">
+              開催しているセミナーの種類・頻度、現在の運営フロー、課題に感じている点などをお伺いし、御団体に合った利用方法・料金イメージをご提案します。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">STEP 2</div>
+            <div class="step-title">1〜2回のセミナーで試験利用</div>
+            <div class="step-body">
+              実際のセミナーを対象に、掲載〜受付〜決済〜受講管理までをお試しいただきます。この段階で運営フロー上の改善点があれば調整します。
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">STEP 3</div>
+            <div class="step-title">年間スケジュールへの組み込み</div>
+            <div class="step-body">
+              学会・研究会の年間スケジュールとあわせて、会員向けの学び支援インフラとして継続的にご利用いただきます。認定制度・ポイント制度との連携もご相談可能です。
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section" id="faq">
+        <div class="section-kicker">FAQ</div>
+        <h2 class="section-title">よくある質問。</h2>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <div class="faq-q">Q. 会員限定セミナーにも使えますか？</div>
+            <div class="faq-a">
+              はい、公開セミナーだけでなく、会員限定・特定施設向けセミナーにもご利用いただけます。公開範囲や表示方法は個別に設定可能です。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Q. 既存の申し込みフォームや決済システムと併用できますか？</div>
+            <div class="faq-a">
+              併用も可能です。一部のセミナーのみまなメドを利用するなど、段階的な導入もご提案できます。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Q. サポート体制はどうなっていますか？</div>
+            <div class="faq-a">
+              初期設定〜運用開始まではオンラインでサポートいたします。実際の事務フローに合わせた運用方法のご相談も可能です。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Q. 費用感について知りたいのですが？</div>
+            <div class="faq-a">
+              開催頻度・規模・決済の有無などによって変動します。オンラインでヒアリングさせていただいた上で、御団体の状況に合わせたプランをご提案いたします。
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final CTA -->
+      <section class="section cta-final">
+        <h2 class="section-title">CE向けセミナー運営を、「参加しやすく・運営しやすく」。</h2>
+        <p>
+          手数料＆広報コストの削減、全国のCEへの集客導線、事務作業の効率化。<br />
+          まなメドは、臨床工学技士の学びを支えるパートナーとして、御団体のセミナー運営をサポートします。
+        </p>
+        <p>
+          まずは<strong>オンラインで15〜30分</strong>、現在の状況をお伺いしながらご説明させてください。
+        </p>
+        <div style="margin-top: 1.6rem;">
+          <a
+            class="btn-primary"
+            href="https://example.com/contact"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            お問い合わせフォームへ
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>© 2025 まなメド</span>
+        <span>※ 本ページは学会・団体さま向けのご案内用LPです。</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
