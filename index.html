@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8" />
   <title>まなメド｜臨床工学技士のための学びプラットフォーム</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="忙しい臨床工学技士のための、セミナー探しと資格管理がこれ1つに。全国のCE向けセミナー情報を一元管理できるWebサービス「まなメド」。"
-  />
+  <meta name="description" content="忙しい臨床工学技士のための、セミナー探しと資格管理がこれ1つに。全国のCE向けセミナー情報を一元管理できるWebサービス「まなメド」。" />
   <style>
     /* カラーパレットと共通色変数（ライトテーマ） */
     :root {
@@ -55,12 +53,10 @@
       z-index: 20;
       border-bottom: 1px solid rgba(148, 163, 184, 0.35);
       backdrop-filter: blur(16px);
-      background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.95),
-        rgba(255, 255, 255, 0.9),
-        rgba(255, 255, 255, 0.75)
-      );
+      background: linear-gradient(to bottom,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.75));
     }
 
     .nav-inner {
@@ -670,8 +666,18 @@
         grid-template-columns: minmax(0, 1fr);
       }
 
+      .nav-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
       .nav-links {
-        display: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        margin-top: 1rem;
+        gap: 1rem;
       }
     }
 
@@ -695,6 +701,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="page">
     <header>
@@ -1173,4 +1180,5 @@
     </footer>
   </div>
 </body>
+
 </html>
