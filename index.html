@@ -710,6 +710,16 @@
       .nav-links a:last-child {
         display: none;
       }
+
+      /* Safe Center: 最初の要素の左マージンを自動化 */
+      .nav-links a:first-child {
+        margin-left: auto;
+      }
+
+      /* Safe Center: 最後の可視要素（CTA）の右マージンを自動化 */
+      .nav-links .nav-cta {
+        margin-right: auto;
+      }
     }
 
     /* 600px以下のレスポンシブ対応（1カラム寄せ） */
