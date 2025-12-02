@@ -637,6 +637,18 @@
       align-items: center;
     }
 
+    /* モバイル用ヘッダーリンク（デフォルト非表示） */
+    .mobile-header-link {
+      display: none;
+      font-size: 0.75rem;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.3rem 0.6rem;
+      border-radius: 999px;
+      margin-left: auto;
+      /* ロゴの右側に配置 */
+    }
+
     /* 900px以下のレスポンシブ対応 */
     @media (max-width: 900px) {
       .hero {
@@ -668,7 +680,13 @@
 
       .nav-inner {
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-between;
+        /* ロゴ左、リンク右 */
+        align-items: center;
+      }
+
+      .mobile-header-link {
+        display: block;
       }
 
       .nav-links {
@@ -682,6 +700,13 @@
         -webkit-overflow-scrolling: touch;
         white-space: nowrap;
         padding-bottom: 0.5rem;
+        order: 3;
+        /* 2行目に配置 */
+      }
+
+      /* ナビゲーション内の最後のリンク（相互リンク）を隠す */
+      .nav-links a:last-child {
+        display: none;
       }
     }
 
@@ -713,6 +738,7 @@
         <div class="logo">
           <img class="logo-img" src="asset/logo-manaMed.svg" alt="まなメド" />
         </div>
+        <a href="/organizers.html" class="mobile-header-link">企業・学会・団体向けはこちら</a>
         <nav class="nav-links">
           <a href="#about">概要</a>
           <a href="#benefits">特徴</a>
